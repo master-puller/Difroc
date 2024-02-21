@@ -24,6 +24,8 @@ usage() {
   echo "          default: \".out\""
   echo "  -c  --cleanup                removes run files afterward"
   echo "  -q  --quiet                 only outputs which files mismatch"
+  echo
+  echo "Example: difroc -c -d ./tests/example/ cat"
 }
 
 install() {
