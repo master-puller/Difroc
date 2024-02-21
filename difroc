@@ -1,13 +1,29 @@
 #!/bin/bash
-# DIFROC "diff-rock"
-# Daniel Starr 2024
+#     difroc - A standalone shell tester for standalone executables
+#     Copyright (C) 2024 Daniel starr
+#     Mail: daniel32@duck.com
+#
+#     This program is free software: you can redistribute it and/or modify
+#     it under the terms of the GNU Affero General Public License as
+#     published by the Free Software Foundation, either version 3 of the
+#     License, or (at your option) any later version.
+#
+#     This program is distributed in the hope that it will be useful,
+#     but WITHOUT ANY WARRANTY; without even the implied warranty of
+#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#     GNU Affero General Public License for more details.
+#
+#     You should have received a copy of the GNU Affero General Public License
+#     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+
 # Safety measures
 set -e
 set -o pipefail
 
 usage() {
   echo "Usage: $0 [OPTION] cmd [CMDOPTS]"
-  echo "Difroc runs cmd against every input file in dir and compares output"
+  echo "difroc runs cmd against every input file in dir and compares output"
   echo "  useful for testing standalone programs"
   echo "DIFROC is NOT SANITIZED. DO NOT USE WITH UNTRUSTED INPUT"
   echo "Options:"
@@ -46,7 +62,7 @@ uninstall() {
   echo "Removing $target_location" 
 
   if [ ! -f $target_location ]; then
-    echo "DIFROC not found at $target_location. Could not uninstall"
+    echo "difroc not found at $target_location. Could not uninstall"
     exit 1
   fi
   rm -i "$target_location"
