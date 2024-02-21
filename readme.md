@@ -7,7 +7,7 @@ Wrote this little script to test my c++ programs in a course I was doing, as it 
 writing lots of testing libs all the time.
 
 Usage: `$0 [OPTION] cmd [CMDOPTS]`
-> Difroc runs cmd against every input file in dir and compares output"
+> Difroc runs cmd against every input file in dir and compares output
 >  useful for testing standalone programs
 
 **DIFROC is NOT SANITIZED. DO NOT USE WITH UNTRUSTED INPUT**
@@ -30,7 +30,7 @@ Usage: `$0 [OPTION] cmd [CMDOPTS]`
 ```
 ### Examples
 `difroc -c -d ./tests/example/ cat`
-cats every file that matches tests/example/*.in, and compares them against tests/example/*out.
+cats every file that matches the glob `tests/example/*.in`, and compares them against `tests/example/*out`.
 (Usually not useful, unless you're building a cat program I guess...)
 
 `difroc -I`
