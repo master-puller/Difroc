@@ -34,6 +34,7 @@ Usage: `$0 [OPTION] cmd [CMDOPTS]`
     -a  (args-input)             passes file contents as an argument"
                                     catted to args, no stdin"
     -g  (grep)                  greps run output for expected output
+    -e  (error)                 redirects stderr to out
 ```
 ### Examples
 `difroc -c -d ./tests/example/ cat`
