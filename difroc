@@ -130,6 +130,7 @@ while getopts "d:i:IUfr:o:cquage" opt; do
       ;;
     e)
       error_out=true
+      ;;
     \?)
       echo "Option is not DIFROC (Invalid option): -$OPTARG"
       usage
