@@ -31,18 +31,23 @@ usage() {
   echo "          defaults to \"./tests/\""
   echo "  -i  (inext) [INEXT]          input file extension"
   echo "          defaults to \".in\""
-  echo "  -I  (install)               installs difrocq to /usr/local/bin"
-  echo "  -U  (uninstall)              removes difroc from /usr/local/bin"
   echo "  -f  (force)                 force run even if overwrites will occur"
   echo "  -r  (runext) [RUNEXT]        run file extension"
   echo "          default: \".run\""
   echo "  -o  (outext) [OUTEXT]       output (test expected) file extension"
   echo "          default: \".out\""
   echo "  -c  (cleanup)                removes run files afterward"
+  echo 
+
   echo "  -q  (quiet)                 only outputs which files mismatch"
   echo "  -a  (args-input)             passes file contents as an argument"
   echo "                                  catted to args, no stdin"
   echo "  -g  (grep)                  greps run output for expected output"
+  echo "  -e  (error)                 redirects stderr to out"
+  echo 
+  echo "  -I  (install)               installs difrocq to /usr/local/bin"
+  echo "  -U  (uninstall)              removes difroc from /usr/local/bin"
+
   echo
   echo "Example: difroc -c -d ./tests/example/ cat"
 }
@@ -84,10 +89,10 @@ clean_up=false
 quiet=false
 args_input=false
 grep_out=false
-
+error_out=false
 options_passed=false
 
-while getopts "d:i:IUfr:o:cquag" opt; do
+while getopts "d:i:IUfr:o:cquage" opt; do
   options_passed=true
   case $opt in
     d)
@@ -123,6 +128,8 @@ while getopts "d:i:IUfr:o:cquag" opt; do
     g)  
       grep_out=true
       ;;
+    e)
+      error_out=true
 
     \?)
       echo "Option is not DIFROC (Invalid option): -$OPTARG"
@@ -140,7 +147,6 @@ done
 command=
 shift $((OPTIND-1))
 
-#TODO: check if .run will overwrite a file, and warn, unless $force
 
 if [ options_passed ]; then
   if [ $# -eq 0 ]; then
@@ -190,11 +196,19 @@ for file in "$dir_test"*"$in_ext"; do
   # echo "$args_input"
   # echo "$cmdopts"
   # run the command
-  if [ $args_input = false ]; then 
-    ("$command" "${orig_cmdopts[@]}" < "$file" > "$run_name")
+  if [ $args_input = false ]; then
+    if [ $error_out = true ]; then 
+      ("$command" "${orig_cmdopts[@]}" < "$file" &> "$run_name")
+    else
+      ("$command" "${orig_cmdopts[@]}" < "$file" > "$run_name")
+    fi
   else
     # echo "regular loop"
-    ("$command" "${orig_cmdopts[@]}$(cat $file)" > "$run_name")
+    if [ $error_out = true ]; then 
+      ("$command" "${orig_cmdopts[@]}$(cat $file)" &> "$run_name")
+    else
+      ("$command" "${orig_cmdopts[@]}$(cat $file)" > "$run_name")
+    fi
   fi
   
   if [ $? -ne 0 ]; then
